@@ -1,0 +1,18 @@
+body {
+    overflow: hidden;
+}
+h2 {
+    font-size : 20px;
+}
+button {
+    font-size: 20px;
+    padding: 10px 30px;
+    cursor: pointer;
+}
+#arrowWrap{
+    margin: 30px;
+}
+#arrowImg {
+    transition: transform 1.5s cubic-bezier(0.260, -0.070, 0.655, 1.065);
+    width: 30%;
+}
