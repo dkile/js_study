@@ -1,3 +1,15 @@
 body {
   transition: background 2s ease-in-out;
+  overflow: hidden;
+}
+#navi {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+section {
+  height: 100vh;
+  width: 100vw;
+  border-top: 2px dashed rgba(0, 0, 0, 0.5);
 }
