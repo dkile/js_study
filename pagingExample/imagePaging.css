@@ -1,0 +1,44 @@
+body {
+  overflow-x: hidden;
+  background-color: #000;
+}
+
+section {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+section .innerWrap {
+  position: relative;
+  z-index: 100;
+  padding: 120px;
+  width: 340px;
+  margin-top: 50px;
+}
+
+section.active .image {
+  opacity: 1;
+}
+
+section .image {
+  position: fixed;
+  width: 100%;
+  right: -10%;
+  top: 22%;
+  opacity: 0;
+  position: 1;
+  transition: all 1s ease-in-out;
+}
+
+h1 {
+  color: #fff;
+  text-align: center;
+  margin-top: 40vh;
+  font-size: 60px;
+}
+p {
+  color: #fff;
+  font-size: 16px;
+  line-height: 24px;
+}
