@@ -1,0 +1,51 @@
+$t_size: 16px;
+
+body {
+  overflow: hidden;
+  font-size: $t_size;
+}
+
+.contentWrap {
+  background: linear-gradient(120deg, #0272a4, #f6a564);
+  width: 100vw;
+  height: 100vh;
+
+  .album {
+    position: absolute;
+    top: 47%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
+
+    .coverImg {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      img {
+        width: inherit;
+        height: inherit;
+      }
+    }
+
+    .outerDisk {
+      position: absolute;
+      top: 4px;
+      left: 204px;
+      width: 392px;
+      height: 392px;
+      border-radius: 50%;
+      background: linear-gradient(120deg, #000, #333333, #000);
+
+      .innerDisk {
+        position: absolute;
+        top: 131px;
+        left: 131px;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background-color: #0473a4;
+      }
+    }
+  }
+}

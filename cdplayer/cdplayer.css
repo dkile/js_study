@@ -1,0 +1,52 @@
+body {
+  overflow: hidden;
+  font-size: 16px;
+}
+
+.contentWrap {
+  background: linear-gradient(120deg, #0272a4, #f6a564);
+  width: 100vw;
+  height: 100vh;
+}
+
+.contentWrap .album {
+  position: absolute;
+  top: 47%;
+  left: 55%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+}
+
+.contentWrap .album .coverImg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+}
+
+.contentWrap .album .coverImg img {
+  width: inherit;
+  height: inherit;
+}
+
+.contentWrap .album .outerDisk {
+  position: absolute;
+  top: 4px;
+  left: 204px;
+  width: 392px;
+  height: 392px;
+  border-radius: 50%;
+  background: linear-gradient(120deg, #000, #333333, #000);
+}
+
+.contentWrap .album .outerDisk .innerDisk {
+  position: absolute;
+  top: 131px;
+  left: 131px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: #0473a4;
+}
+/*# sourceMappingURL=cdplayer.css.map */
