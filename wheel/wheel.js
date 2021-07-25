@@ -6,11 +6,10 @@ window.onload = function() {
 
     let rotateNum = -90;
 
-    console.log(resetBtn);
     resetBtn.addEventListener("click", function() {
-        rotateNum = -90;
+        rotateNum = 0;
         h2.innerHTML = rotateNum + "deg";
-        arrow.style.transform = "rotate(" + rotateNum + "deg)";
+        arrow.style.transform = "rotate(" + -90 + "deg)";
     })
 
     rotateBtn.addEventListener("click", function() {

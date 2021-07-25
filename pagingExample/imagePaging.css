@@ -1,6 +1,6 @@
 body {
   overflow-x: hidden;
-  background-color: #000;
+  background-color: #fff;
 }
 
 section {
@@ -12,33 +12,71 @@ section {
 section .innerWrap {
   position: relative;
   z-index: 100;
-  padding: 120px;
+  padding: 60px;
   width: 340px;
   margin-top: 50px;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
-section.active .image {
-  opacity: 1;
-}
-
-section .image {
+section .imageWrap {
   position: fixed;
-  width: 100%;
-  right: -10%;
-  top: 22%;
-  opacity: 0;
-  position: 1;
+  width: 70%;
+  right: 5%;
+  top: 35%;
+}
+
+section.active .imageWrap img {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(0, 0);
+}
+
+section .imageWrap img {
+  position: absolute;
+  width: 400px;
   transition: all 1s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-100px, -150px) rotate(-10deg);
+}
+
+.imageWrap img:nth-child(2) {
+  left: 400px;
+  top: 100px;
+  transition-delay: 0.2s;
+  transform: translate(100px, 150px) rotate(-10deg);
 }
 
 h1 {
-  color: #fff;
+  color: #000;
   text-align: center;
   margin-top: 40vh;
   font-size: 60px;
 }
 p {
-  color: #fff;
+  color: #000;
   font-size: 16px;
   line-height: 24px;
+}
+
+.pointWrap {
+  position: fixed;
+  right: 3vw;
+  top: 40%;
+  z-index: 100;
+}
+
+.pointWrap li.active {
+  background-color: #000;
+}
+
+.pointWrap li {
+  width: 12px;
+  height: 12px;
+  margin-top: 15px;
+  list-style: none;
+  border-radius: 50%;
+  background-color: #666;
+  cursor: pointer;
+  transition: background 0.3s ease-out;
 }
