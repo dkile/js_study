@@ -1,6 +1,7 @@
 $t_size: 16px;
 
 body {
+  margin: 0;
   overflow: hidden;
   font-size: $t_size;
 }
@@ -17,6 +18,7 @@ body {
     transform: translate(-50%, -50%);
     width: 600px;
     height: 400px;
+    transition: all 0.4s ease-in-out;
 
     .coverImg {
       position: absolute;
@@ -31,21 +33,97 @@ body {
     .outerDisk {
       position: absolute;
       top: 4px;
-      left: 204px;
+      left: 30%;
       width: 392px;
       height: 392px;
       border-radius: 50%;
       background: linear-gradient(120deg, #000, #333333, #000);
+      animation: rotateAni 10s ease infinite;
+      transition: left 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
       .innerDisk {
         position: absolute;
-        top: 131px;
-        left: 131px;
-        width: 130px;
-        height: 130px;
+        top: 50%;
+        left: 50%;
+        width: 40%;
+        height: 40%;
         border-radius: 50%;
         background-color: #0473a4;
+        border: dashed 3px rgba(255, 255, 255, 0.4);
+        transform: translate(-50%, -50%);
+
+        &::after {
+          position: absolute;
+          content: "";
+          top: 50%;
+          left: 50%;
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background-color: #000;
+          transform: translate(-50%, -50%);
+        }
       }
     }
+    &:hover {
+      .outerDisk {
+        left: 40%;
+        transition-delay: 0s;
+      }
+    }
+  }
+}
+
+.navWrap {
+  position: fixed;
+  width: 100%;
+  bottom: 5vh;
+  text-align: center;
+
+  .navBtn {
+    padding: 8px 19px;
+    margin: 0 3px;
+    background-color: #000;
+    color: #fff;
+    transition: all 0.3s ease-out;
+    cursor: pointer;
+    border-width: 0px;
+
+    &:hover {
+      background-color: #fff;
+      color: #000;
+    }
+  }
+
+  .pointWrap {
+    position: relative;
+    display: inline-block;
+    padding: 0 10px;
+
+    li {
+      position: relative;
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      border-radius: 50%;
+      text-align: center;
+      cursor: pointer;
+      background-color: rgba(0, 0, 0, 0.4);
+      transition: background 0.3s ease-out;
+
+      &:hover {
+        background-color: black;
+      }
+    }
+  }
+}
+
+@keyframes rotateAni {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
