@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap");
+body {
+  overflow-x: hidden;
+  background: url(image/bg.jpg);
+  font-family: "Gamja Flower", cursive;
+}
+body .starBg {
+  background: url(image/star.png);
+}
+body section {
+  position: relative;
+  width: 100vw;
+}
+body section.top {
+  min-height: 300vh;
+}
+body section.top h1 {
+  position: relative;
+  padding-top: 40vh;
+  font-size: 60px;
+  color: white;
+  text-align: center;
+  text-shadow: 0px 0px 20px rgba(255, 255, 255, 0.7);
+}
+body section.top h1 div {
+  display: inline-block;
+  letter-spacing: 5px;
+}
+body section.bottom {
+  background: url(image/bottom.png) center bottom/100% no-repeat;
+  min-height: 60vh;
+}
+body section.bottom .cardWrap {
+  position: relative;
+  margin: 0 auto;
+  max-width: 700px;
+}
+body section.bottom .cardWrap ul {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+body section.bottom .cardWrap ul li {
+  width: 130px;
+  height: 200px;
+  border-radius: 5%;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+body section.bottom .cardWrap ul li p {
+  font-size: 20px;
+  color: white;
+  border-bottom: 2px dashed white;
+}
+body section.bottom .cardWrap ul li:nth-child(1) {
+  background: linear-gradient(45deg, #f7b733, #fc4a1a);
+}
+body section.bottom .cardWrap ul li:nth-child(2) {
+  background: linear-gradient(45deg, #fc00ff 0%, #401241 100%);
+}
+body section.bottom .cardWrap ul li:nth-child(3) {
+  background-image: linear-gradient(45deg, #ce713b 0%, #f7ce68 100%);
+}
+body section.bottom .cardWrap ul li:nth-child(4) {
+  background-image: linear-gradient(45deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
+}
+body section.bottom .cardWrap ul li:hover {
+  transform: translateY(-20px);
+}
+body section.bottom .cardWrap h2 {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+}
+body #topBtn {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 10%;
+  right: 5%;
+  font-size: 20px;
+  border-radius: 10%;
+  background: black;
+  color: white;
+  border: 2px solid #eee;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+body #topBtn:hover {
+  background: white;
+  color: black;
+}
+
+.starBg {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 200vh;
+}/*# sourceMappingURL=star.css.map */
