@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hahmlet&display=swap");
+
+body {
+  background-color: #cec4ce;
+  overflow: hidden;
+
+  h1 {
+    position: fixed;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .cardWrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+
+    .card {
+      font-family: "Hahmlet", serif;
+      position: absolute;
+      width: 200px;
+      height: 130px;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+
+      p {
+        margin: 0;
+        font-size: 1rem;
+        text-align: right;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      &:nth-child(1) {
+        background: linear-gradient(62deg, #fbab7e, #f7ce68);
+      }
+      &:nth-child(2) {
+        background: linear-gradient(20deg, #ff5e7e, #ff99ac);
+      }
+      &:nth-child(3) {
+        background: linear-gradient(160deg, #0093e9, #80d0c7);
+      }
+      &:nth-child(4) {
+        background: linear-gradient(40deg, #fd1d1d, #833ab4);
+      }
+      &:nth-child(5) {
+        background: linear-gradient(20deg, black 0%, #fc00ff 100%);
+      }
+    }
+  }
+  .btnWrap {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .replaceBtn {
+      position: relative;
+      margin: 0 5px;
+      padding: 8px 20px;
+      background-color: black;
+      color: white;
+      font-family: "Hahmlet", serif;
+      transition: all 0.3s ease-out;
+
+      &:hover,
+      &.active {
+        background-color: #970000;
+      }
+    }
+  }
+}
