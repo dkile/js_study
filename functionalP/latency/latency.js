@@ -109,4 +109,28 @@ const queryStr = pipe(
   L.map(([k, v]) => `${k}=${v}`),
   join("&")
 );
-console.log(queryStr({ limit: "10", offset: "10", type: "notice" }));
+//console.log(queryStr({ limit: "10", offset: "10", type: "notice" }));
+const takeAll = take(Infinity);
+
+const isIterable = (a) => a && a[Symbol.iterator];
+//yield* iterable == for (const val of iterable) yield val
+L.flatten = function* (iter) {
+  for (const a of iter) {
+    if (isIterable(a)) {
+      //for (const b of a) yield b;
+      yield* a;
+    } else yield a;
+  }
+};
+
+const flatten = pipe(L.flatten, takeAll);
+
+L.deepFlat = function* f(iter) {
+  for (const a of iter)
+    if (isIterable(a)) yield* f(a);
+    else yield a;
+};
+
+L.flatMap = curry(pipe(L.map, L.flatten));
+
+const flatMap = curry(pipe(L.flatMap, flatten));
