@@ -19,15 +19,22 @@ const filter = curry((f, iter) => {
   return res;
 });
 
+const go1 = (a, f) => (a instanceof Promise ? a.then(f) : f(a));
+
 const reduce = curry((f, acc, iter) => {
   if (!iter) {
     iter = acc[Symbol.iterator]();
     acc = iter.next().value;
   }
-  for (const a of iter) {
-    acc = f(acc, a);
-  }
-  return acc;
+  return go1(acc, function recur(acc) {
+    for (const a of iter) {
+      acc = f(acc, a);
+      if (acc instanceof Promise) {
+        return acc.then(recur);
+      }
+    }
+    return acc;
+  });
 });
 
 const go = (...args) => reduce((a, f) => f(a), args);
@@ -78,7 +85,7 @@ L.range = function* (l) {
 // });
 L.map = curry(function* (f, iter) {
   for (const a of iter) {
-    yield f(a);
+    yield go1(a, f);
   }
 });
 
@@ -88,13 +95,70 @@ L.filter = curry(function* (f, iter) {
   }
 });
 
-const take = (l, iter) => {
+const take = curry((l, iter) => {
   let res = [];
-  for (const a of iter) {
-    res.push(a);
-    if (res.length === l) return res;
-  }
-};
+  return (function recur() {
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (
+        var _iterator = iter[Symbol.iterator](), _step;
+        !(_iteratorNormalCompletion = (_step = _iterator.next()).done);
+        _iteratorNormalCompletion = true
+      ) {
+        var _a = _step.value;
+        if (_a instanceof Promise)
+          return _a.then((_a) => {
+            res.push(_a);
+            return res.length === l ? res : recur();
+          });
+        res.push(_a);
+        if (res.length === l) return res;
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+    return res;
+    //   for (const a of iter) {
+    //     if (a instanceof Promise)
+    //       return a.then((a) => {
+    //         res.push(a);
+    //         return res.length === l ? res : recur();
+    //       });
+    //     res.push(a);
+    //     if (res.length === l) return res;
+    //   }
+    //   return res;
+    // })();
+    // return (function recur() {
+    //   let cur;
+    //   while (!(cur = iter.next()).done) {
+    //     let a = cur.value;
+    //     if (a instanceof Promise)
+    //       return a.then((a) => {
+    //         res.push(a);
+    //         return res.length === l ? res : recur();
+    //       });
+    //     res.push(a);
+    //     if (res.length === l) return res;
+    //   }
+    //   return res;
+    // })();
+  })();
+});
 
 const join = curry((sep = ",", iter) =>
   reduce((a, b) => `${a}${sep}${b}`, iter)
@@ -134,3 +198,19 @@ L.deepFlat = function* f(iter) {
 L.flatMap = curry(pipe(L.map, L.flatten));
 
 const flatMap = curry(pipe(L.flatMap, flatten));
+
+// go(
+//   1,
+//   (a) => a + 10,
+//   (a) => Promise.resolve(a + 100),
+//   (a) => a + 1000,
+//   (a) => a + 10000,
+//   console.log
+// );
+
+go(
+  [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)],
+  L.map((a) => a + 10),
+  take(2),
+  console.log
+);
