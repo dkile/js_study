@@ -184,10 +184,22 @@ L.flatMap = curry(pipe(L.map, L.flatten));
 
 const flatMap = curry(pipe(L.flatMap, flatten));
 
+const C = {};
+
+C.reduce = curry((f, acc, iter) =>
+  iter ? reduce(f, acc, [...iter]) : reduce(f, [...acc])
+);
+
+const delay1000 = (a) =>
+  new Promise((resolve) => {
+    console.log("hi");
+    setTimeout(() => resolve(a), 1000);
+  });
+
 go(
-  [1, 2, 3, 4],
-  L.map((a) => Promise.resolve(a * a)),
-  L.filter((a) => Promise.resolve(a % 2)),
+  [1, 2, 3],
+  L.map((a) => delay1000(a * a)),
+  L.filter((a) => a % 2),
   reduce(add),
   console.log
 );
