@@ -74,6 +74,7 @@ L.filter = curry(function* (f, iter) {
 
 const take = curry((l, iter) => {
   let res = [];
+  iter = iter[Symbol.iterator]();
   // return (function recur() {
   //   var _iteratorNormalCompletion = true;
   //   var _didIteratorError = false;
@@ -186,20 +187,63 @@ const flatMap = curry(pipe(L.flatMap, flatten));
 
 const C = {};
 
-C.reduce = curry((f, acc, iter) =>
-  iter ? reduce(f, acc, [...iter]) : reduce(f, [...acc])
+function noop() {}
+const catchNoop = (arr) => (
+  arr.forEach((a) => (a instanceof Promise ? a.catch(noop) : a)), arr
 );
 
-const delay1000 = (a) =>
+C.reduce = curry((f, acc, iter) =>
+  iter ? reduce(f, acc, catchNoop([...iter])) : reduce(f, catchNoop([...acc]))
+);
+
+C.take = curry((l, iter) => take(l, catchNoop([...iter])));
+
+C.takeAll = C.take(Infinity);
+
+C.map = curry(pipe(L.map, C.takeAll));
+
+C.filter = curry(pipe(L.filter, C.takeAll));
+
+const delay1000 = (a, name) =>
   new Promise((resolve) => {
-    console.log("hi");
-    setTimeout(() => resolve(a), 1000);
+    console.log("ouside setTime", name);
+    setTimeout(() => {
+      console.log("inside setTime", name);
+      resolve(a);
+    }, 100);
   });
 
-go(
-  [1, 2, 3],
-  L.map((a) => delay1000(a * a)),
-  L.filter((a) => a % 2),
-  reduce(add),
-  console.log
-);
+function f5(list) {
+  return go(
+    list,
+    L.map((a) => delay1000(a * a, "f5.fmap")),
+    L.filter((a) => delay1000(a % 2, "f5.filter")),
+    L.map((a) => delay1000(a + 1, "f5.tmap")),
+    C.take(2),
+    reduce((a, b) => delay1000(a + b, "f5.reduce"))
+  );
+}
+
+async function f6(list) {
+  let temp = [];
+  console.log(new Error().stack);
+  for (const a of list) {
+    const b = await delay1000(a * a, "f6.fmap");
+    if (await delay1000(b % 2, "f6.filter")) {
+      const c = await delay1000(b + 1, "f6.tmap");
+      temp.push(c);
+      if (temp.length == 2) break;
+    }
+  }
+  let res = temp[0],
+    i = 0;
+  while (++i < temp.length) {
+    res = await delay1000(res + temp[i], "f6.reduce");
+  }
+  return res;
+}
+
+console.log(go(f5([1, 2, 3, 4, 5, 6, 7, 8]), console.log));
+
+// go(f6([1, 2, 3, 4, 5, 6, 7, 8]), console.log);
+// go(f5([1, 2, 3, 4, 5, 6, 7, 8]), (a) => console.log(a, "f5"));
