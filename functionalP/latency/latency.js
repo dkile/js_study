@@ -243,7 +243,5 @@ async function f6(list) {
   return res;
 }
 
-console.log(go(f5([1, 2, 3, 4, 5, 6, 7, 8]), console.log));
-
 // go(f6([1, 2, 3, 4, 5, 6, 7, 8]), console.log);
 // go(f5([1, 2, 3, 4, 5, 6, 7, 8]), (a) => console.log(a, "f5"));
