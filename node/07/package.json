@@ -1,0 +1,23 @@
+{
+  "name": "learn-sequelize",
+  "version": "0.0.1",
+  "description": "learn sequelize",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
+  },
+  "author": "dkile",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "mysql2": "*",
+    "nunjucks": "^3.2.3",
+    "sequelize": "^6.9.0",
+    "sequelize-cli": "^6.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
