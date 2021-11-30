@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const nunjucks = require("nunjucks");
 const dotenv = require("dotenv");
-const ColorHash = require("color-hash");
+const ColorHash = require("color-hash").default;
 
 const app = express();
 
@@ -22,27 +22,27 @@ nunjucks.configure("views", {
 });
 connect();
 
+const sessionMiddleware = session({
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  },
+});
+
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  })
-);
+app.use(sessionMiddleware);
 
 app.use((req, res, next) => {
   if (!req.session.color) {
     const colorHash = new ColorHash();
-    req.session.color = colorHash.hex(req.sessionId);
+    req.session.color = colorHash.hex(req.sessionID);
   }
   next();
 });
@@ -64,4 +64,4 @@ app.use((err, req, res, next) => {
 
 const server = app.listen(app.get("port"));
 
-webSocket(server, app);
+webSocket(server, app, sessionMiddleware);
