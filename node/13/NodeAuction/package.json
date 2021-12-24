@@ -4,11 +4,13 @@
   "description": "node auction system",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
   },
   "author": "dkile",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -17,6 +19,8 @@
     "multer": "^1.4.3",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0",
     "sequelize": "*",
     "sequelize-cli": "^6.3.0"
   },
