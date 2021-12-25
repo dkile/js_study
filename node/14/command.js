@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-
 const { program } = require("commander");
 const fs = require("fs");
 const path = require("path");
+const inquirer = require("inquirer");
+const chalk = require("chalk");
 
 const htmlTemplate = `
 <!DOCTYPE html>
@@ -61,21 +62,21 @@ const makeTemplate = (type, name, dir) => {
   if (type === "html") {
     const pathToFile = path.join(dir, `${name}.html`);
     if (exist(pathToFile)) {
-      console.error("Already exist");
+      console.error(chalk.bold.red("Already exist"));
     } else {
       fs.writeFileSync(pathToFile, htmlTemplate);
-      console.log(pathToFile, "done");
+      console.log(chalk.green(pathToFile, "done"));
     }
   } else if (type === "express-router") {
     const pathToFile = path.join(dir, `${name}.js`);
     if (exist(pathToFile)) {
-      console.error("Already exist");
+      console.error(chalk.bold.red("Already exist"));
     } else {
       fs.writeFileSync(pathToFile, routerTemplate);
-      console.log(pathToFile, "done");
+      console.log(chalk.green(pathToFile, "done"));
     }
   } else {
-    console.error("html or express-router");
+    console.error(chalk.bold.red("only html or express-router"));
   }
 };
 
@@ -92,9 +93,44 @@ program
     makeTemplate(type, options.filename, options.directory);
   });
 
-program.command("*", { noHelp: true }).action(() => {
-  console.log("command not found");
-  program.help();
-});
-
-program.parse(process.argv);
+program
+  .action((cmd, args) => {
+    if (args) {
+      console.log(chalk.bold.red("command not found"));
+      program.help();
+    } else {
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            name: "type",
+            message: "choose template",
+            choices: ["html", "express-router"],
+          },
+          {
+            type: "input",
+            name: "name",
+            message: "input filename",
+            default: "index",
+          },
+          {
+            type: "input",
+            name: "directory",
+            message: "input path",
+            default: ".",
+          },
+          {
+            type: "confirm",
+            name: "confirm",
+            message: "create?",
+          },
+        ])
+        .then((answers) => {
+          if (answers.confirm) {
+            makeTemplate(answers.type, answers.name, answers.directory);
+            console.log(chalk.rgb(128, 128, 128)("close terminal"));
+          }
+        });
+    }
+  })
+  .parse(process.argv);
