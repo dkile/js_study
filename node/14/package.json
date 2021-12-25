@@ -9,7 +9,11 @@
   "author": "dkile",
   "license": "ISC",
   "bin": {
-    "cli": "./index.js",
-    "template": "./template.js"
+    "cli": "./command.js"
+  },
+  "dependencies": {
+    "chalk": "^5.0.0",
+    "commander": "^5.1.0",
+    "inquirer": "^8.2.0"
   }
 }
