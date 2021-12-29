@@ -170,7 +170,7 @@ router.get("/list", isLoggedIn, async (req, res, next) => {
       include: { model: Auction },
       order: [[{ model: Auction }, "bid", "DESC"]],
     });
-    res.render("lsit", { title: "낙찰 목록 - NodeAuction", goods });
+    res.render("list", { title: "낙찰 목록 - NodeAuction", goods });
   } catch (err) {
     console.error(err);
     next(err);
