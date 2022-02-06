@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import superagent from "superagent";
 import mkdirp from "mkdirp";
-import { urlToFilename } from "./utils.js";
+import { urlToFilename, getPageLinks } from "./utils.js";
 
 export const saveFile = (filename, contents, cb) => {
   mkdirp(path.dirname(filename), (err) => {
@@ -11,6 +11,32 @@ export const saveFile = (filename, contents, cb) => {
     }
     fs.writeFile(filename, contents, cb);
   });
+};
+
+const spiderLinks = (currentUrl, body, nesting, cb) => {
+  if (nesting === 0) {
+    return process.nextTick(cb);
+  }
+
+  const links = getPageLinks(currentUrl, body);
+  if (links.length === 0) {
+    return process.nextTick(cb);
+  }
+
+  function iterate(index) {
+    if (index === links.length) {
+      return cb();
+    }
+
+    spider(links[index], nesting - 1, function (err) {
+      if (err) {
+        return cb(err);
+      }
+      iterate(index + 1);
+    });
+  }
+
+  iterate(0);
 };
 
 export const download = (url, filename, cb) => {
@@ -29,17 +55,22 @@ export const download = (url, filename, cb) => {
   });
 };
 
-export function spider(url, cb) {
+export function spider(url, nesting, cb) {
   const filename = urlToFilename(url);
-  fs.access(filename, (err) => {
-    if (!err || err.code !== "ENOENT") {
-      return cb(null, filename, false);
-    }
-    download(url, filename, (err) => {
-      if (err) {
+  fs.readFile(filename, "utf8", (err, fileContent) => {
+    if (err) {
+      if (err.code !== "ENOENT") {
         return cb(err);
       }
-      cb(null, filename, true);
-    });
+
+      return download(url, filename, (err, requestContent) => {
+        if (err) {
+          return cb(err);
+        }
+        spiderLinks(url, requestContent, nesting, cb);
+      });
+    }
+
+    spiderLinks(url, fileContent, nesting, cb);
   });
 }
