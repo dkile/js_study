@@ -42,7 +42,6 @@ function recursiveFind(dir, keyword, cb) {
           fileList.push(file);
         }
       });
-      cb(fileList);
     });
 }
 
