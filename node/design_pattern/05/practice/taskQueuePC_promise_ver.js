@@ -11,16 +11,25 @@ export default class TaskQueuePC {
     }
   }
 
-  async consumer() {
-    while (true) {
-      try {
-        const task = await this.getNextTask();
-        await task();
-      } catch (err) {
-        console.error(err);
-      }
-    }
+  consumer() {
+    return this.getNextTask()
+      .then((task) => {
+        return task();
+      })
+      .then(() => this.consumer())
+      .catch((err) => console.error(err));
   }
+
+  // async consumer() {
+  //   while (true) {
+  //     try {
+  //       const task = await this.getNextTask();
+  //       await task();
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   }
+  // }
 
   getNextTask() {
     return new Promise((resolve) => {
@@ -49,12 +58,16 @@ export default class TaskQueuePC {
   }
 }
 
-// const queue = new TaskQueuePC(3);
+const queue = new TaskQueuePC(3);
 
 const fn1 = async () => {
   try {
     console.log("fn1 start");
-    const content = await fsPromise.readFile("./test", "utf8");
+    const content = await fsPromise.readFile(
+      // "./05/async/webspider_async_v4/test",
+      "../async/webspider_async_v4/test",
+      "utf8"
+    );
 
     return content;
   } catch (err) {
@@ -66,7 +79,11 @@ const fn1 = async () => {
 const fn2 = async () => {
   try {
     console.log("fn2 start");
-    const content = await fsPromise.readFile("./test2", "utf8");
+    const content = await fsPromise.readFile(
+      // "./05/async/webspider_async_v4/test2",
+      "../async/webspider_async_v4/test2",
+      "utf8"
+    );
 
     return content;
   } catch (err) {
@@ -78,7 +95,11 @@ const fn2 = async () => {
 const fn3 = async () => {
   try {
     console.log("fn3 start");
-    const content = await fsPromise.readFile("./test", "utf8");
+    const content = await fsPromise.readFile(
+      // "./05/async/webspider_async_v4/test",
+      "../async/webspider_async_v4/test",
+      "utf8"
+    );
 
     return content;
   } catch (err) {
@@ -90,7 +111,11 @@ const fn3 = async () => {
 const fn4 = async () => {
   try {
     console.log("fn4 start");
-    const content = await fsPromise.readFile("./test2", "utf8");
+    const content = await fsPromise.readFile(
+      // "./05/async/webspider_async_v4/test2",
+      "../async/webspider_async_v4/test2",
+      "utf8"
+    );
 
     return content;
   } catch (err) {
@@ -99,16 +124,16 @@ const fn4 = async () => {
   }
 };
 
-// const promises = [
-//   queue.runTask(fn1),
-//   queue.runTask(fn2),
-//   queue.runTask(fn3),
-//   queue.runTask(fn4),
-// ];
+const promises = [
+  queue.runTask(fn1),
+  queue.runTask(fn2),
+  queue.runTask(fn3),
+  queue.runTask(fn4),
+];
 
-// const contents = await Promise.all(promises);
+const contents = await Promise.all(promises);
 
-// console.log(contents);
+console.log(contents);
 // const content1 = await queue.runTask(fn1);
 // const content2 = await queue.runTask(fn2);
 // const content3 = await queue.runTask(fn3);
@@ -122,13 +147,3 @@ const fn4 = async () => {
 //     const
 //   })
 // }
-
-((function () {
-  console.log("A");
-},
-function () {
-  console.log("B");
-},
-function () {
-  console.log("C");
-})());
